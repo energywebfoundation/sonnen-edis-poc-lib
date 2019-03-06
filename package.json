@@ -1,0 +1,40 @@
+{
+  "name": "sonnen-contracts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist/js && node_modules/typescript/bin/tsc",
+    "deploy": "node dist/js/src/deployment.js",
+    "onBoardTestAsset": "npm run deploy && npm run build && node dist/js/src/asset.js",
+    "start-ganache": "ganache-cli -m 'chalk park staff buzz chair purchase wise oak receive avoid avoid home' -g 0 -l 80000000 -e 1000000 -a 20",
+    "start-test-backend": "node node_modules/ew-utils-testbackend/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.slock.it/ewf/origin-pilots/sonnen/sonnen-contracts.git"
+  },
+  "author": "slock.it GmbH",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "ew-user-registry-contracts": "0.0.99",
+    "ew-asset-registry-contracts": "v0.0.3-sonnen",
+    "ew-market-contracts": "0.0.2-sonnen",
+    "ew-origin-contracts": "0.0.3-sonnen",
+    "ew-asset-registry-lib": "0.0.1-sonnen",
+    "ew-utils-testbackend": "v0.0.99",
+    "web3": "1.0.0-beta.37",
+    "write-json-file": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^2.2.48",
+    "@types/node": "^9.6.28",
+    "@types/web3": "1.0.14",
+    "ganache-cli": "^6.2.5",
+    "typescript": "^2.9.2",
+    "typescript-json-schema": "^0.31.0"
+  },
+  "postinstall": "rm -f node_modules/web3/index.d.ts"
+}
