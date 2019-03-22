@@ -83,6 +83,11 @@ We need to understand that Piet knows the structure of contracts from the GitHub
 
 Here's a visual representation of the steps above:
 
+![Adding smart contract address](tutorial/tutorial-contract-address.png)
+
+![Calling a function](tutorial/tutorial-call-function.png)
+
+![Successful transaction result](tutorial/tutorial-result.png)
 
 ## Setting up MetaMask addresses
 In order to interact with smart contracts, we need to sign every transaction by the appropriate key. In this tutorial, we'll show public keys publicly. It's extremely important to understand that you should never show your own private keys publicly. Private keys require proper management. The only reason why we're showing it publicly is to help you understand how the pilot works. In a production environment, you should create your own user and assets from your own private keys. So once again, please make sure you do not reveal your own private key publicly. 
