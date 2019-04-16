@@ -90,7 +90,7 @@ const main = async () => {
 
     const traderPK = '0x2dc5120c26df339dbd9861a0f39a79d87e0638d30fdedc938861beac77bbd3f5';
     const accountTrader = web3.eth.accounts.privateKeyToAccount(traderPK).address;
-    await userLogic.setUser(accountTrader, 'E.DIS', { privateKey: privateKeyDeployment });
+    await userLogic.setUser(accountTrader, 'trader', { privateKey: privateKeyDeployment });
     await userLogic.setRoles(accountTrader, 63, { privateKey: privateKeyDeployment });
 
     await assetRegistry.setMarketLookupContract((Number(asset.id)), contractConfig.OriginContractLookup, { privateKey: assetOwnerPK });

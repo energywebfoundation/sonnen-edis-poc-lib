@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build_dockerContainer": "docker build -t sonnendocker .",
+    "docker_run": "./docker_start.sh",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf dist/js && node_modules/typescript/bin/tsc",
     "deploy": "node dist/js/src/deployment.js",
-    "onBoardTestAsset": "npm run deploy && npm run build && node dist/js/src/asset.js",
-    "start-ganache": "ganache-cli -m 'chalk park staff buzz chair purchase wise oak receive avoid avoid home' -g 0 -l 80000000 -e 1000000 -a 20",
-    "start-test-backend": "node node_modules/ew-utils-testbackend/index.js"
+    "onBoardTestAsset": "npm run deploy && npm run build && node dist/js/src/asset.js"
   },
   "repository": {
     "type": "git",
