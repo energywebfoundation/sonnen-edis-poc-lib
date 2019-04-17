@@ -19,10 +19,10 @@
   "license": "GPL-3.0",
   "dependencies": {
     "ew-user-registry-contracts": "0.0.99",
-    "ew-asset-registry-contracts": "v0.0.3-sonnen",
-    "ew-market-contracts": "0.0.2-sonnen",
-    "ew-origin-contracts": "0.0.3-sonnen",
-    "ew-asset-registry-lib": "0.0.1-sonnen",
+    "ew-asset-registry-contracts": "v0.0.4-sonnen",
+    "ew-market-contracts": "0.0.3-sonnen",
+    "ew-origin-contracts": "0.0.4-sonnen",
+    "ew-asset-registry-lib": "0.0.3-sonnen",
     "ew-utils-testbackend": "v0.0.99",
     "web3": "1.0.0-beta.37",
     "write-json-file": "^3.1.0"

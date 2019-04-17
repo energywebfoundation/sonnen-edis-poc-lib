@@ -97,9 +97,9 @@ const main = () => __awaiter(this, void 0, void 0, function* () {
     yield userLogic.setRoles(accountTrader, 63, { privateKey: privateKeyDeployment });
     yield assetRegistry.setMarketLookupContract((Number(asset.id)), contractConfig_json_1.default.OriginContractLookup, { privateKey: assetOwnerPK });
     yield marketLogic.createDemand('Saxonia', Date.now(), Date.now() + 1000, 1000, { privateKey: traderPK });
-    yield marketLogic.createSupply(0, 'Saxonia', Date.now(), Date.now() + 1000, 1000, 100, 10, { privateKey: assetOwnerPK });
+    yield marketLogic.createSupply(0, 'Saxonia', Date.now(), Date.now() + 1000, 1000, 100, { privateKey: assetOwnerPK });
     yield marketLogic.createAgreement(0, 0, { privateKey: traderPK });
-    yield assetRegistry.saveSonnenSmartMeterRead(0, 500, 'lastSmartMeterReadFileHash', Math.floor(Date.now() / 1000) - 1000, Math.floor(Date.now() / 1000), 10, 10, 'url', { privateKey: assetSmartmeterPK });
+    yield assetRegistry.saveSonnenSmartMeterRead(0, 500, 'lastSmartMeterReadFileHash', Math.floor(Date.now() / 1000) - 1000, Math.floor(Date.now() / 1000), 10, 'url', { privateKey: assetSmartmeterPK });
     const assetProps2 = {
         smartMeter: { address: assetSmartMeter2 },
         owner: { address: assetOwnerAddress },

@@ -96,7 +96,7 @@ const main = async () => {
     await assetRegistry.setMarketLookupContract((Number(asset.id)), contractConfig.OriginContractLookup, { privateKey: assetOwnerPK });
 
     await marketLogic.createDemand('Saxonia', Date.now(), Date.now() + 1000, 1000, { privateKey: traderPK });
-    await marketLogic.createSupply(0, 'Saxonia', Date.now(), Date.now() + 1000, 1000, 100, 10, { privateKey: assetOwnerPK });
+    await marketLogic.createSupply(0, 'Saxonia', Date.now(), Date.now() + 1000, 1000, 100, { privateKey: assetOwnerPK });
     await marketLogic.createAgreement(0, 0, { privateKey: traderPK });
     await assetRegistry.saveSonnenSmartMeterRead(
         0,
@@ -104,7 +104,6 @@ const main = async () => {
         'lastSmartMeterReadFileHash',
         Math.floor(Date.now() / 1000) - 1000,
         Math.floor(Date.now() / 1000),
-        10,
         10,
         'url',
         { privateKey: assetSmartmeterPK });

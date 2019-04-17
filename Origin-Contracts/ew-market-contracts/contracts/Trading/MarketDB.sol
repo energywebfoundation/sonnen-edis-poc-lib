@@ -38,7 +38,6 @@ contract MarketDB is AgreementDB {
         uint dateTimeFrom;
         uint dateTimeTo;
         uint power;
-        uint baselinePower;
         uint matchedPower;
         uint price;
     }
@@ -85,7 +84,6 @@ contract MarketDB is AgreementDB {
         uint _dateTimeFrom,
         uint _dateTimeTo,
         uint _power,
-        uint _baselinePower,
         uint _matchedPower,
         uint _price
     )
@@ -99,7 +97,6 @@ contract MarketDB is AgreementDB {
             dateTimeFrom: _dateTimeFrom,
             dateTimeTo: _dateTimeTo,
             power: _power,
-            baselinePower: _baselinePower,
             matchedPower: _matchedPower,
             price: _price
         }));

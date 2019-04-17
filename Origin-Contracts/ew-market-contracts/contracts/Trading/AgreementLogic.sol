@@ -26,6 +26,7 @@ import "ew-asset-registry-contracts/contracts/Interfaces/AssetConsumingInterface
 import "ew-asset-registry-contracts/contracts/Interfaces/AssetContractLookupInterface.sol";
 import "../../contracts/Interfaces/MarketContractLookupInterface.sol";
 import "../../contracts/Interfaces/AgreementLogicInterface.sol";
+import "ew-asset-registry-contracts/contracts/Interfaces/SonnenAssetProducingInterface.sol";
 
 contract AgreementLogic is RoleManagement, Updatable, AgreementLogicInterface {
 
@@ -53,25 +54,40 @@ contract AgreementLogic is RoleManagement, Updatable, AgreementLogicInterface {
 	/// @param _demandId the demand Id
     function createAgreement(
         uint _demandId,
-        uint[] memory _supplyId
+        uint _supplyId
     )
         public
     { 
+        uint[] memory supplyInternal = new uint[](1); 
+        
+        supplyInternal[0] = _supplyId;   
+
         uint agreementId = db.createAgreementDB(
             _demandId,
-            _supplyId
+            supplyInternal
         );
-        /*
-       
-        if(msg.sender == demand.demandOwner){
-            approveAgreementDemand(agreementId);
-        }
-        if(msg.sender == supplyOwner){
-            approveAgreementSupply(agreementId);
-        }
-        */
 
-      //  emit LogAgreementCreated(agreementId, _demandId, _supplyIds);
+        for(uint j = 0; j < supplyInternal.length; j++){
+            MarketDB.Supply memory supply = db.getSupply(supplyInternal[j]);
+
+            for(uint i = 0; i < supply.assetId.length; i++){
+                SonnenAssetProducingInterface(assetContractLookup.assetProducingRegistry()).setMarketPropsCertOwner(supply.assetId[i], msg.sender);
+            }
+        }
+
+    }
+
+    function abortSupply(uint _supplyId) 
+        external 
+    {
+        AgreementDB.SupplyAgreement memory sa = db.getAgreementForSupply(_supplyId);
+        require(!sa.isSet, "supply is part of an agreeent");
+        MarketDB.Supply memory supply = db.getSupply(_supplyId);
+
+        for(uint i = 0; i < supply.assetId.length; i++){
+            SonnenAssetProducingInterface(assetContractLookup.assetProducingRegistry()).clearSonnenAsset(supply.assetId[i]);
+        }
+
     }
 
     function getAgreementForSupply(uint _supplyId) 
@@ -79,10 +95,8 @@ contract AgreementLogic is RoleManagement, Updatable, AgreementLogicInterface {
         view 
         returns (uint _agreementId)
     {
-        /*
-        return db.getAgreementForSupply(_supplyId);
-        */
-
+        AgreementDB.SupplyAgreement memory sa = db.getAgreementForSupply(_supplyId);
+        require(sa.isSet,"no agreement found");
         return getAgreementForSupplyPublic(_supplyId);
     } 
 
@@ -126,12 +140,12 @@ contract AgreementLogic is RoleManagement, Updatable, AgreementLogicInterface {
         view
         returns (
             uint _demandId,
-            uint[] memory _supplyIds
+            uint _supplyIds
         )
     {
         MarketDB.Agreement memory agreement = db.getAgreementDB(_agreementId);
         _demandId = agreement.demandId;
-        _supplyIds = agreement.supplyId;
+        _supplyIds = agreement.supplyId[0];
     }
 
     function getAgreementForSupplyPublic(uint _supplyId) 
@@ -139,7 +153,9 @@ contract AgreementLogic is RoleManagement, Updatable, AgreementLogicInterface {
         view 
         returns (uint _agreementId)
     {
-        return db.getAgreementForSupply(_supplyId);
+        AgreementDB.SupplyAgreement memory sa = db.getAgreementForSupply(_supplyId);
+        require(sa.isSet,"no agreement found");
+        return sa.agreementId;
     } 
 
     function getDemandForAgreementPublic(uint _agreementId) public view returns (uint _demandId){

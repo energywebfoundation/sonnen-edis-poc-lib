@@ -36,6 +36,16 @@ contract EnergyLogic is RoleManagement, TradableEntityLogic, TradableEntityContr
     event LogCreatedCertificate(uint indexed _certificateId, uint powerInW, address owner);
     event LogTest(address marketlookup, address marketLogic, uint agreementId, uint supplyId);
 
+    event LogFlexibilityCreated( 
+        uint id, 
+        uint activationId, 
+        uint dateTimeFrom, 
+        uint dateTimeTo, 
+        uint energyAmount, 
+        uint averagePower,
+         string powerProfileURL, 
+         string powerProfileHash);
+
     /// @notice Constructor
     /// @param _assetContractLookup the assetRegistryContractRegistry-contract-address
     /// @param _originContractLookup the originContractLookup-contract-address
@@ -72,7 +82,6 @@ contract EnergyLogic is RoleManagement, TradableEntityLogic, TradableEntityContr
             datetimeTo: asset.marketProps.timeFrameTo,
             energyAmountInWh: _powerInW,
             averagePowerInW: asset.marketProps.averagePower,
-            baselinePowerInW:  asset.marketProps.baselinePower,
             powerProfileURL:  asset.marketProps.powerProfileURL,
             powerProfileHash: asset.assetGeneral.lastSmartMeterReadFileHash,
             reportConfirmed: false
@@ -80,37 +89,19 @@ contract EnergyLogic is RoleManagement, TradableEntityLogic, TradableEntityContr
 
         _id = EnergyDB(address(db)).createTradableEntityEntry(
             _assetId,
-            asset.assetGeneral.owner,
+            asset.marketProps.certificateOwner,
             _powerInW,
             flex
         );  
 
         emit LogCreatedCertificate(_id, _powerInW, asset.assetGeneral.owner);
 
-        (uint demandId,) = AgreementLogicInterface(MarketContractLookupInterface(asset.marketProps.marketLookupAddress).marketLogicRegistry()).getAgreement(agreementId);
+        uint demandId = AgreementLogicInterface(MarketContractLookupInterface(asset.marketProps.marketLookupAddress).marketLogicRegistry()).getDemandForAgreement(agreementId);
         MarketLogicInterface(MarketContractLookupInterface(asset.marketProps.marketLookupAddress).marketLogicRegistry()).setSupplyMatchedPower(asset.marketProps.supplyId,_powerInW);
 
         MarketLogicInterface(MarketContractLookupInterface(asset.marketProps.marketLookupAddress).marketLogicRegistry()).setDemandMatchedPower(demandId,_powerInW);
 
-        /*
-        EnergyDB.Flexibility memory flex = EnergyDB.Flexibility({
-         ?   uint datetimeFrom;	
-         ?   uint datetimeTo;	
-            uint energyAmountInWh; -> meterread
-         ?   uint averagePowerInW;
-         ?   uint baselinePowerInW;
-            string powerProfileURL;  -> asset
-            bytes32 powerProfileHash; -> asset
-            bool reportConfirmed; -> false
-        });
-
-        _id = EnergyDB(address(db)).createTradableEntityEntry(
-            _assetId,
-           asset.assetGeneral.owner,
-            _powerInW
-        );  
-        */
-      //  EnergyDB(address(db)).setFileHash(_id, asset.assetGeneral.lastSmartMeterReadFileHash);
+        emit LogFlexibilityCreated( _id, agreementId, asset.marketProps.timeFrameFrom, asset.marketProps.timeFrameTo, _powerInW, asset.marketProps.averagePower, asset.marketProps.powerProfileURL, asset.assetGeneral.lastSmartMeterReadFileHash);
     
     }
 
@@ -132,7 +123,6 @@ contract EnergyLogic is RoleManagement, TradableEntityLogic, TradableEntityContr
             uint _dateTimeTo,
             uint _energyAmount,
             uint _averagePower,
-            uint _baselinePower,
             string memory _powerProfileURL,
             string memory _powerProfileHash,
             bool _reportConfirmed
@@ -145,7 +135,6 @@ contract EnergyLogic is RoleManagement, TradableEntityLogic, TradableEntityContr
         _dateTimeTo = energy.flexibility.datetimeTo;
         _energyAmount = energy.flexibility.energyAmountInWh;
         _averagePower = energy.flexibility.averagePowerInW;
-        _baselinePower = energy.flexibility.baselinePowerInW;
         _powerProfileURL = energy.flexibility.powerProfileURL;
         _powerProfileHash = energy.flexibility.powerProfileHash;
         _reportConfirmed = energy.flexibility.reportConfirmed;
@@ -157,6 +146,14 @@ contract EnergyLogic is RoleManagement, TradableEntityLogic, TradableEntityContr
         returns (EnergyDB.Energy memory)
     {
         return EnergyDB(address(db)).getEnergyCertificate(_certId);
+    }
+
+    function getCertificateListLength()
+        external
+        view
+        returns (uint)
+    {
+        return EnergyDB(address(db)).getCertificateListLength();
     }
 
 

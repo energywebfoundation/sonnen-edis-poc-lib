@@ -11,7 +11,6 @@ contract SonnenAssetProducingDB is AssetProducingDB {
         uint timeFrameFrom;
         uint timeFrameTo;
         uint averagePower;
-        uint baselinePower;
         bool supplyIdSet;
         string powerProfileURL;
         address marketLookupAddress;

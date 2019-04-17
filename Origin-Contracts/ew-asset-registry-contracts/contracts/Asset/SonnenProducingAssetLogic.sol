@@ -40,7 +40,6 @@ contract SonnenProducingAssetLogic is AssetProducingRegistryLogic, SonnenAssetPr
             timeFrameFrom: 0,
             timeFrameTo: 0,
             averagePower: 0,
-            baselinePower: 0,
             supplyIdSet: false,
             marketLookupAddress: _marketLookupAddress,
             powerProfileURL: "",
@@ -111,7 +110,6 @@ contract SonnenProducingAssetLogic is AssetProducingRegistryLogic, SonnenAssetPr
         uint _timeFrameFrom,
         uint _timeFrameTo,
         uint _averagePower,
-        uint _baselinePower,
         string calldata _powerProfileURL
     )
         external
@@ -123,7 +121,6 @@ contract SonnenProducingAssetLogic is AssetProducingRegistryLogic, SonnenAssetPr
         tempMarketProps.timeFrameFrom= _timeFrameFrom;
         tempMarketProps.timeFrameTo = _timeFrameTo;
         tempMarketProps.averagePower = _averagePower;
-        tempMarketProps.baselinePower = _baselinePower;
         tempMarketProps.powerProfileURL = _powerProfileURL;
         SonnenAssetProducingDB(address(db)).setMarketProperties(_assetId, tempMarketProps);
 
@@ -149,9 +146,8 @@ contract SonnenProducingAssetLogic is AssetProducingRegistryLogic, SonnenAssetPr
     function addSonnenAssetToSupply(uint _assetId, uint _supplyId) 
         external 
     {
-
         SonnenAssetProducingDB.MarketProperties memory tempMarketProps = SonnenAssetProducingDB(address(db)).getMarketProperties(_assetId);
-        require(address(MarketContractLookupInterface(tempMarketProps.marketLookupAddress).marketLogicRegistry) == msg.sender,"not the marketRegistry-contract");
+        require(address(MarketContractLookupInterface(tempMarketProps.marketLookupAddress).marketLogicRegistry()) == msg.sender,"not the marketRegistry-contract");
         
         require(!tempMarketProps.supplyIdSet, "supply already set");
         
@@ -165,7 +161,7 @@ contract SonnenProducingAssetLogic is AssetProducingRegistryLogic, SonnenAssetPr
         external 
         {
         SonnenAssetProducingDB.MarketProperties memory tempMarketProps = SonnenAssetProducingDB(address(db)).getMarketProperties(_assetId);
-        require(address(MarketContractLookupInterface(tempMarketProps.marketLookupAddress).marketLogicRegistry) == msg.sender,"not the marketRegistry-contract");
+        require(address(MarketContractLookupInterface(tempMarketProps.marketLookupAddress).marketLogicRegistry()) == msg.sender,"not the marketRegistry-contract");
 
         require(owner != address(0x0), "owner cannot be 0");
         tempMarketProps.certificateOwner = _owner;
@@ -176,7 +172,8 @@ contract SonnenProducingAssetLogic is AssetProducingRegistryLogic, SonnenAssetPr
     function clearSonnenAsset(uint _assetId) external {
 
         SonnenAssetProducingDB.MarketProperties memory tempMarketProps = SonnenAssetProducingDB(address(db)).getMarketProperties(_assetId);
-        require(address(MarketContractLookupInterface(tempMarketProps.marketLookupAddress).marketLogicRegistry) == msg.sender,"not the marketRegistry-contract");
+
+        require(address(MarketContractLookupInterface(tempMarketProps.marketLookupAddress).marketLogicRegistry()) == msg.sender,"not the marketRegistry-contract");
 
         // we reset the supply binding
         tempMarketProps.supplyId = 0;
@@ -185,5 +182,11 @@ contract SonnenProducingAssetLogic is AssetProducingRegistryLogic, SonnenAssetPr
         SonnenAssetProducingDB(address(db)).setMarketProperties(_assetId, tempMarketProps);
     }
 
+	/// @notice checks whether an assets with the provided smartmeter already exists
+	/// @param _smartMeter smartmter of an asset
+	/// @return whether there is already an asset with that smartmeter
+    function checkAssetExist(address _smartMeter) public view returns (bool){
+        return checkAssetGeneralExistingStatus(SonnenAssetProducingDB(address(db)).getSonnenAssetBySmartMeter(_smartMeter).assetGeneral);
+    }
 
 }

@@ -32,7 +32,6 @@ contract EnergyDB is TradableEntityDB, TradableEntityContract {
         uint datetimeTo;	
         uint energyAmountInWh;
         uint averagePowerInW;
-        uint baselinePowerInW;
         string powerProfileURL;
         string powerProfileHash;
         bool reportConfirmed; 
@@ -279,6 +278,15 @@ contract EnergyDB is TradableEntityDB, TradableEntityContract {
         returns (Energy memory)
     {
         return energyList[_entityId];
+    }
+
+    function getCertificateListLength()
+        external
+        onlyOwner
+        view
+        returns (uint)
+    {
+        return energyList.length;
     }
 
 

@@ -58,24 +58,28 @@ contract MarketLogic is AgreementLogic, MarketLogicInterface {
 	/// @dev will return an event with the event-Id
     function createSupply
     (
-        uint[] memory _assetId,
+        uint _assetId,
         string memory _regionId,
         uint _dateTimeFrom,
         uint _dateTimeTo,
         uint _power,
-        uint _baselinePower,
         uint _price
     )
         public
      {
+        uint[] memory assetIdInternal = new uint[](1); 
+        
+        assetIdInternal[0] = _assetId;         
+
      //   require(AssetGeneralInterface(assetContractLookup.assetProducingRegistry()).getAssetOwner(_assetId) == msg.sender, "wrong msg.sender");
-        uint supplyID = db.createSupply(_assetId, _regionId, _dateTimeFrom, _dateTimeTo, _power, _baselinePower, 0, _price);
+        uint supplyID = db.createSupply(assetIdInternal, _regionId, _dateTimeFrom, _dateTimeTo, _power, 0, _price);
 
-        for(uint i=0; i < _assetId.length;i++){
-            SonnenAssetProducingInterface(assetContractLookup.assetProducingRegistry()).addSonnenAssetToSupply(_assetId[i], supplyID);
+        for(uint i=0; i < assetIdInternal.length;i++){
+           SonnenAssetProducingInterface(assetContractLookup.assetProducingRegistry()).addSonnenAssetToSupply(assetIdInternal[i], supplyID);
         }
-
         emit createdNewSupply(msg.sender, supplyID);
+
+
     }
 
 	/// @notice function to return the length of the allDemands-array in the database
@@ -124,24 +128,22 @@ contract MarketLogic is AgreementLogic, MarketLogicInterface {
         public
         view
         returns (
-            uint[] memory _assetId,
+            uint _assetId,
             string memory _regionId,
             uint _dateTimeFrom,
             uint _dateTimeTo,
             uint _power,
-            uint _baselinePower,
             uint _matchedPower,
             uint _price
         )
     {
         
         MarketDB.Supply memory supply = db.getSupply(_supplyId);
-        _assetId = supply.assetId;
+        _assetId = supply.assetId[0];
         _regionId = supply.regionId;
         _dateTimeFrom = supply.dateTimeFrom;
         _dateTimeTo = supply.dateTimeTo; 
         _power = supply.power;
-        _baselinePower = supply.baselinePower;
         _matchedPower = supply.matchedPower;
         _price = supply.price;
 

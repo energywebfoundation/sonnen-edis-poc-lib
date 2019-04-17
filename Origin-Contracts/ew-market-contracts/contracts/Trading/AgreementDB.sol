@@ -148,10 +148,10 @@ contract AgreementDB is Owned {
         external 
         view
         onlyOwner
-        returns (uint)
+        returns (SupplyAgreement memory)
     {
         SupplyAgreement memory sa = supplyToAgreement[_supplyId];
-        require(sa.isSet,"no agreement found");
-        return sa.agreementId;
+      //  require(sa.isSet,"no agreement found");
+        return sa;
     } 
 }
