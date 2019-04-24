@@ -14,14 +14,18 @@ const main = async () => {
     /// User
     const userContracts = await migrateUserRegistryContracts(web3, privateKeyDeployment);
     const userContractLookupAddr = (userContracts as any).UserContractLookup;
+    console.log('user contracts deployed');
 
     /// Asset
     const assetContracts = await migrateSonnenAssetRegistryContracts(web3, userContractLookupAddr, privateKeyDeployment);
     const assetRegistryLookupAddr = (assetContracts as any).AssetContractLookup;
+    console.log('asset contracts deployed');
 
     const originContracts = await migrateSonnenContracts(web3, assetRegistryLookupAddr, privateKeyDeployment);
+    console.log('origin contracts deployed');
 
     const marketContracts = await migrateMarketRegistryContracts(web3, assetRegistryLookupAddr, privateKeyDeployment);
+    console.log('market contracts deployed');
 
     const deployedContracts = {};
     Object.keys(userContracts).forEach((key) => deployedContracts[key] = userContracts[key]);

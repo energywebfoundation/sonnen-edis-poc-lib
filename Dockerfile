@@ -10,7 +10,11 @@ RUN apk add --no-cache python && \
     rm -r /root/.cache
 RUN apk add --no-cache git
 
-WORKDIR /
-COPY src/docker/start.sh /start.sh
+RUN mkdir -p /src
 
-CMD ["/bin/sh","start.sh"]
+COPY . /src
+WORKDIR /src
+
+RUN npm install && npm run build
+
+CMD ["npm","run","start-demo"]

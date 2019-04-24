@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build_dockerContainer": "docker build -t sonnendocker .",
-    "docker_run": "./docker_start.sh",
+    "docker_run": "docker run -it sonnendocker",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf dist/js && node_modules/typescript/bin/tsc",
     "deploy": "node dist/js/src/deployment.js",
-    "onBoardTestAsset": "npm run deploy && npm run build && node dist/js/src/asset.js"
+    "onBoardTestAsset": "npm run deploy && npm run build && node dist/js/src/asset.js",
+    "start-test-backend": "node node_modules/ew-utils-testbackend/index.js",
+    "start-demo": "npm run start-test-backend  > /dev/null 2>&1 & npm run onBoardTestAsset"
   },
   "repository": {
     "type": "git",
