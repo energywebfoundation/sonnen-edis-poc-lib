@@ -1,12 +1,12 @@
 import Web3 from 'web3';
 import * as fs from 'fs';
 import contractConfig from '../config/contractConfig.json';
-import * as Asset from 'ew-asset-registry-lib';
+import * as Asset from 'ew-asset-registry-lib-sonnen';
 import { logger } from './Logger';
 import { UserLogic } from 'ew-user-registry-contracts';
-import { SonnenProducingAssetLogic } from 'ew-asset-registry-contracts';
-import { MarketLogic } from 'ew-market-contracts';
-import { EnergyLogic } from 'ew-origin-contracts';
+import { SonnenProducingAssetLogic } from 'ew-asset-registry-contracts-sonnen';
+import { MarketLogic } from 'ew-market-contracts-sonnen';
+import { EnergyLogic } from 'ew-origin-contracts-sonnen';
 
 const main = async () => {
     const configFile = JSON.parse(fs.readFileSync(process.cwd() + '/connection-config.json', 'utf8'));

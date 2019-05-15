@@ -1,9 +1,9 @@
 import Web3 from 'web3';
 import * as fs from 'fs';
 import { migrateUserRegistryContracts } from 'ew-user-registry-contracts';
-import { migrateSonnenAssetRegistryContracts } from 'ew-asset-registry-contracts';
-import { migrateMarketRegistryContracts } from 'ew-market-contracts';
-import { migrateSonnenContracts } from 'ew-origin-contracts';
+import { migrateSonnenAssetRegistryContracts } from 'ew-asset-registry-contracts-sonnen';
+import { migrateMarketRegistryContracts } from 'ew-market-contracts-sonnen';
+import { migrateSonnenContracts } from 'ew-origin-contracts-sonnen';
 
 const main = async () => {
     const configFile = JSON.parse(fs.readFileSync(process.cwd() + '/connection-config.json', 'utf8'));
