@@ -1,4 +1,4 @@
-FROM node:11-alpine
+FROM node:10-alpine
 
 USER root
 
@@ -15,6 +15,6 @@ RUN mkdir -p /src
 COPY . /src
 WORKDIR /src
 
-RUN npm install && npm run build
+RUN npm install -g npm && rm -rf node_modules && npm install && npm run build
 
 CMD ["npm","run","start-demo"]
