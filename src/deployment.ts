@@ -4,6 +4,8 @@ import { migrateUserRegistryContracts } from 'ew-user-registry-contracts';
 import { migrateSonnenAssetRegistryContracts } from 'ew-asset-registry-contracts-sonnen';
 import { migrateMarketRegistryContracts } from 'ew-market-contracts-sonnen';
 import { migrateSonnenContracts } from 'ew-origin-contracts-sonnen';
+import { CONFIG } from './config';
+import fetch from 'node-fetch';
 
 const main = async () => {
     const configFile = JSON.parse(fs.readFileSync(process.cwd() + '/connection-config.json', 'utf8'));
@@ -23,6 +25,19 @@ const main = async () => {
 
     const originContracts = await migrateSonnenContracts(web3, assetRegistryLookupAddr, privateKeyDeployment);
     console.log('origin contracts deployed', originContracts);
+
+    if (assetRegistryLookupAddr) {
+        console.log('Posting to ', `${CONFIG.API_BASE_URL}/OriginContractLookupAssetLookupMapping/${originContracts['OriginContractLookup'].toLowerCase()}`);
+        fetch(`${CONFIG.API_BASE_URL}/OriginContractLookupAssetLookupMapping/${originContracts['OriginContractLookup'].toLowerCase()}`, {
+            body: JSON.stringify({
+                assetContractLookup: assetRegistryLookupAddr.toLowerCase(),
+            }),
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+    }
 
     const marketContracts = await migrateMarketRegistryContracts(web3, assetRegistryLookupAddr, privateKeyDeployment);
     console.log('market contracts deployed');
