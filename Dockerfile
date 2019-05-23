@@ -2,7 +2,7 @@ FROM node:10-alpine
 
 USER root
 
-RUN apk add --no-cache make gcc g++
+RUN apk add --no-cache make gcc g++ openssh-client
 RUN apk add --no-cache python && \
     python -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
@@ -15,6 +15,4 @@ RUN mkdir -p /src
 COPY . /src
 WORKDIR /src
 
-RUN npm install -g npm && rm -rf node_modules && npm install && npm run build
-
-CMD ["npm","run","start-demo"]
+RUN rm -rf node_modules && npm install && npm run build
