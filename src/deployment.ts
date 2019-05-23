@@ -19,10 +19,10 @@ const main = async () => {
     /// Asset
     const assetContracts = await migrateSonnenAssetRegistryContracts(web3, userContractLookupAddr, privateKeyDeployment);
     const assetRegistryLookupAddr = (assetContracts as any).AssetContractLookup;
-    console.log('asset contracts deployed');
+    console.log('asset contracts deployed', assetContracts);
 
     const originContracts = await migrateSonnenContracts(web3, assetRegistryLookupAddr, privateKeyDeployment);
-    console.log('origin contracts deployed');
+    console.log('origin contracts deployed', originContracts);
 
     const marketContracts = await migrateMarketRegistryContracts(web3, assetRegistryLookupAddr, privateKeyDeployment);
     console.log('market contracts deployed');

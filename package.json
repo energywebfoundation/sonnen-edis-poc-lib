@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "build_dockerContainer": "docker build -t sonnendocker .",
-    "docker_run": "docker run -it sonnendocker",
+    "docker_run": "docker run --net=\"host\" -it sonnendocker",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist/js && node_modules/typescript/bin/tsc",
+    "build": "rm -rf dist/js && tsc",
     "deploy": "node dist/js/src/deployment.js",
     "onBoardTestAsset": "npm run deploy && npm run build && node dist/js/src/asset.js",
     "start-test-backend": "node node_modules/ew-utils-testbackend/index.js",
-    "start-demo": "npm run start-test-backend  > /dev/null 2>&1 & npm run onBoardTestAsset"
+    "start-demo": "npm run start-test-backend  > /dev/null 2>&1 & npm run onBoardTestAsset",
+    "start-ganache": "ganache-cli -m 'chalk park staff buzz chair purchase wise oak receive avoid avoid home' -g 0 -l 80000000 -e 1000000 -a 20"
   },
   "repository": {
     "type": "git",
@@ -20,23 +21,25 @@
   "author": "slock.it GmbH",
   "license": "GPL-3.0",
   "dependencies": {
-    "ew-user-registry-contracts": "0.0.99",
     "ew-asset-registry-contracts-sonnen": "0.2.0",
+    "ew-asset-registry-lib-sonnen": "0.2.0",
     "ew-market-contracts-sonnen": "0.2.0",
     "ew-origin-contracts-sonnen": "0.2.0",
-    "ew-asset-registry-lib-sonnen": "0.2.0",
+    "ew-user-registry-contracts": "0.0.99",
+    "ew-utils-general-lib-sonnen": "0.2.0",
     "ew-utils-testbackend": "v0.0.99",
     "web3": "1.0.0-beta.37",
+    "websocket": "1.0.28",
     "write-json-file": "^3.1.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.4",
-    "@types/mocha": "^2.2.48",
-    "@types/node": "^9.6.28",
+    "@types/chai": "4.1.7",
+    "@types/mocha": "2.2.48",
+    "@types/node": "9.6.48",
     "@types/web3": "1.0.14",
-    "ganache-cli": "^6.2.5",
-    "typescript": "^2.9.2",
-    "typescript-json-schema": "^0.31.0"
+    "ganache-cli": "6.4.3",
+    "typescript": "2.9.2",
+    "typescript-json-schema": "0.31.0"
   },
   "postinstall": "rm -f node_modules/web3/index.d.ts"
 }
