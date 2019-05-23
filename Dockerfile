@@ -15,4 +15,4 @@ RUN mkdir -p /src
 COPY . /src
 WORKDIR /src
 
-RUN rm -rf node_modules && npm install && npm run build
+RUN rm -rf node_modules && npm config set unsafe-perm true && npm install && npm run build

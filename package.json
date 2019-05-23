@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "build_dockerContainer": "docker build -t sonnendocker .",
-    "docker_run": "docker run --net=\"host\" -it sonnendocker",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf dist/js && tsc",
     "deploy": "node dist/js/src/deployment.js",
     "onBoardTestAsset": "npm run deploy && npm run build && node dist/js/src/asset.js",
     "start-test-backend": "node node_modules/ew-utils-testbackend/dist/js/src/index.js",
-    "start-demo": "npm run start-test-backend > /dev/null 2>&1 & npm run onBoardTestAsset",
+    "docker-start-ganache": "docker run --net=\"host\" -it sonnendocker npm run start-ganache",
+    "docker-start-test-backend": "docker run --net=\"host\" -it sonnendocker npm run start-test-backend",
+    "docker-start-demo": "docker run --net=\"host\" -it sonnendocker npm run onBoardTestAsset",
     "start-ganache": "ganache-cli -m 'chalk park staff buzz chair purchase wise oak receive avoid avoid home' -g 0 -l 80000000 -e 1000000 -a 20"
   },
   "repository": {
