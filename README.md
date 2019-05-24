@@ -145,7 +145,7 @@ To import each private key to MetaMask you need to:
 2. Start Docker for Windows
 3. `npm run build_dockerContainer`
 4. `npm run docker-start-ganache`
-5. `npm run docker-start-test-backend`
+5. `npm run docker-start-test-backend` (in separate terminal, it will run in the background)
 6. `npm run docker-start-demo`
 7. In MetaMask add RPC with `docker-machine ip`, like: `http://192.168.99.100:8545`
 
