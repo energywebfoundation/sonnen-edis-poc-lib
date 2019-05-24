@@ -13,7 +13,7 @@
     "docker-start-ganache": "docker run --net=\"host\" -it sonnendocker npm run start-ganache",
     "docker-start-test-backend": "docker run --net=\"host\" -it sonnendocker npm run start-test-backend",
     "docker-start-demo": "docker run --net=\"host\" -it sonnendocker npm run onBoardTestAsset",
-    "start-ganache": "ganache-cli -m 'chalk park staff buzz chair purchase wise oak receive avoid avoid home' -g 0 -l 80000000 -e 1000000 -a 20"
+    "start-ganache": "ganache-cli -h 0.0.0.0 -m 'chalk park staff buzz chair purchase wise oak receive avoid avoid home' -g 0 -l 80000000 -e 1000000 -a 20"
   },
   "repository": {
     "type": "git",
