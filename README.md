@@ -133,15 +133,13 @@ To import each private key to MetaMask you need to:
 ### Running on Windows
 
 #### Tobalaba
-1. `npm install`
-2. Start Docker for Windows
-3. `npm run build_dockerContainer`
-4. `npm run docker-start-test-backend` (in separate terminal, it will run in the background)
-5. `npm run docker-start-demo`
+1. Start Docker for Windows
+2. `npm run build_dockerContainer`
+3. `npm run docker-start-test-backend` (in separate terminal, it will run in the background)
+4. `npm run docker-start-demo`
 
 #### Local network
 1. In `connection-config.json` change `https://rpc.slock.it/tobalaba` to `http://localhost:8545`
-1. `npm install`
 2. Start Docker for Windows
 3. `npm run build_dockerContainer`
 4. `npm run docker-start-ganache`
