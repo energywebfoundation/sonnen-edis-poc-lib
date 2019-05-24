@@ -136,7 +136,7 @@ To import each private key to MetaMask you need to:
 1. `npm install`
 2. Start Docker for Windows
 3. `npm run build_dockerContainer`
-4. `npm run docker-start-test-backend`
+4. `npm run docker-start-test-backend` (in separate terminal, it will run in the background)
 5. `npm run docker-start-demo`
 
 #### Local network
