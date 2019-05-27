@@ -129,3 +129,33 @@ To import each private key to MetaMask you need to:
     * Function `EnergyLogic.approveCertificate()`
     * Signed in as E.DIS trader
     * Function EnergyLogic.getReportedFlexibility() returns now true under _reportConfirmed
+
+### Running on Windows
+
+#### Tobalaba
+1. Start Docker for Windows
+2. `npm run build_dockerContainer`
+3. `npm run docker-start-test-backend` (in separate terminal, it will run in the background)
+4. `npm run docker-start-demo`
+
+#### Local network
+1. In `connection-config.json` change `https://rpc.slock.it/tobalaba` to `http://localhost:8545`
+2. Start Docker for Windows
+3. `npm run build_dockerContainer`
+4. `npm run docker-start-ganache`
+5. `npm run docker-start-test-backend` (in separate terminal, it will run in the background)
+6. `npm run docker-start-demo`
+7. In MetaMask add RPC with `docker-machine ip`, like: `http://192.168.99.100:8545`
+
+After deploying demo for whichever network, copy `OriginContractLookup` address, it will be needed for the frontend.
+
+#### Running frontend
+1. Go to `sonnen-edis-poc-ui`
+2. If you don't have Python, please run: `npm install -g --production windows-build-tools`
+3. `npm install`
+4. In `AppContainer.tsx` change `API_BASE_URL`, by replacing `localhost` with result of `docker-machine ip`, so it should look like: `'http://192.168.99.100:3030'`
+5. `npm run start`
+6. In browser, in MetaMask, select or add Tobalaba RPC, for example: `https://rpc.slock.it/tobalaba`
+7. In browser, go to: `http://localhost:3000/ORIGIN_CONTRACT_LOOKUP_ADDRESS` (where address is the one from deployed demo)
+
+Now you should be able to see the results of deployed demo

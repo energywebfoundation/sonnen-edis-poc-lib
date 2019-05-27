@@ -7,6 +7,7 @@ import { UserLogic } from 'ew-user-registry-contracts';
 import { SonnenProducingAssetLogic } from 'ew-asset-registry-contracts-sonnen';
 import { MarketLogic } from 'ew-market-contracts-sonnen';
 import { EnergyLogic } from 'ew-origin-contracts-sonnen';
+import { CONFIG } from './config.js';
 
 const main = async () => {
     const configFile = JSON.parse(fs.readFileSync(process.cwd() + '/connection-config.json', 'utf8'));
@@ -78,7 +79,7 @@ const main = async () => {
             web3,
         },
         offChainDataSource: {
-            baseUrl: 'http://localhost:3030',
+            baseUrl: CONFIG.API_BASE_URL,
         },
         logger,
     };
