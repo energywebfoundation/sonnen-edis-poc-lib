@@ -78,7 +78,7 @@ To import each private key to MetaMask you need to:
 
 1. Create a supply
     * In UI go to *Admin > Create Supply* section
-    * Signed in as Sonnen asset
+    * Signed in as Sonnen asset owner
 2. Create a demand
     * In UI go to *Admin > Create Demand* section
     * Signed in as E.DIS trader
