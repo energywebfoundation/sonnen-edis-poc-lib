@@ -39,6 +39,9 @@ const main = async () => {
 
     await userLogic.setRoles(accountDeployment, 3, { privateKey: privateKeyDeployment });
 
+    await userLogic.setUser(assetSmartmeter, 'SMeter AssetId_0', { privateKey: privateKeyDeployment });
+    await userLogic.setUser(assetSmartMeter2, 'SMeter AssetId_1', { privateKey: privateKeyDeployment });
+
     const assetProps: Asset.ProducingAsset.OnChainProperties = {
         smartMeter: { address: assetSmartmeter },
         owner: { address: assetOwnerAddress },

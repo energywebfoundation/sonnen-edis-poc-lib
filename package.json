@@ -23,7 +23,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "ew-asset-registry-contracts-sonnen": "0.2.0",
-    "ew-asset-registry-lib-sonnen": "0.2.0",
+    "ew-asset-registry-lib-sonnen": "github:energywebfoundation/ew-asset-registry-lib-sonnen#f6dd5e2",
     "ew-market-contracts-sonnen": "0.2.0",
     "ew-origin-contracts-sonnen": "0.2.0",
     "ew-user-registry-contracts": "0.0.99",

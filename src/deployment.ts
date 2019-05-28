@@ -27,7 +27,7 @@ const main = async () => {
     console.log('origin contracts deployed', originContracts);
 
     if (assetRegistryLookupAddr) {
-        console.log('Posting to ', `${CONFIG.API_BASE_URL}/OriginContractLookupAssetLookupMapping/${originContracts['OriginContractLookup'].toLowerCase()}`);
+        console.log(`Posting to ${CONFIG.API_BASE_URL}/OriginContractLookupAssetLookupMapping/${originContracts['OriginContractLookup'].toLowerCase()}`);
         fetch(`${CONFIG.API_BASE_URL}/OriginContractLookupAssetLookupMapping/${originContracts['OriginContractLookup'].toLowerCase()}`, {
             body: JSON.stringify({
                 assetContractLookup: assetRegistryLookupAddr.toLowerCase(),
@@ -41,6 +41,20 @@ const main = async () => {
 
     const marketContracts = await migrateMarketRegistryContracts(web3, assetRegistryLookupAddr, privateKeyDeployment);
     console.log('market contracts deployed');
+
+    if (marketContracts && marketContracts['MarketContractLookup']) {
+        console.log(`Posting to ${CONFIG.API_BASE_URL}/OriginContractLookupMarketLookupMapping/${originContracts['OriginContractLookup'].toLowerCase()}`);
+
+        fetch(`${CONFIG.API_BASE_URL}/OriginContractLookupMarketLookupMapping/${originContracts['OriginContractLookup'].toLowerCase()}`, {
+            body: JSON.stringify({
+                marketContractLookup: marketContracts['MarketContractLookup'].toLowerCase(),
+            }),
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+    }
 
     const deployedContracts = {};
     Object.keys(userContracts).forEach((key) => deployedContracts[key] = userContracts[key]);
