@@ -57,17 +57,17 @@ const main = async () => {
 
     const assetPropsOffChain: Asset.ProducingAsset.OffChainProperties = {
         operationalSince: Math.floor(Date.now() / 1000),
-        capacityWh: 10000,
+        capacityWh: 54000,
         country: 'Germany',
-        region: 'Saxony',
-        zip: '09648',
-        city: 'Mittweida',
-        street: 'Markt',
-        houseNumber: '16 ',
-        gpsLatitude: '50.985483',
-        gpsLongitude: '12.981649',
+        region: 'Kremmen',
+        zip: '',
+        city: '',
+        street: '',
+        houseNumber: '',
+        gpsLatitude: '52.7734108',
+        gpsLongitude: '12.918861613554114',
         assetType: Asset.ProducingAsset.Type.Battery,
-        complianceRegistry: Asset.ProducingAsset.Compliance.EEC,
+        complianceRegistry: Asset.ProducingAsset.Compliance.none,
         otherGreenAttributes: 'n.a',
         typeOfPublicSupport: 'n.a',
     };
@@ -90,27 +90,13 @@ const main = async () => {
     const asset = await Asset.ProducingAsset.createAsset(assetProps, assetPropsOffChain, conf);
 
     const assetRegistry = new SonnenProducingAssetLogic((web3 as any), contractConfig.AssetProducingRegistryLogic);
-    const marketLogic = new MarketLogic(web3, contractConfig.MarketLogic);
 
     const traderPK = '0x2dc5120c26df339dbd9861a0f39a79d87e0638d30fdedc938861beac77bbd3f5';
     const accountTrader = web3.eth.accounts.privateKeyToAccount(traderPK).address;
-    await userLogic.setUser(accountTrader, 'trader', { privateKey: privateKeyDeployment });
+    await userLogic.setUser(accountTrader, 'E.DIS Netz', { privateKey: privateKeyDeployment });
     await userLogic.setRoles(accountTrader, 63, { privateKey: privateKeyDeployment });
 
     await assetRegistry.setMarketLookupContract((Number(asset.id)), contractConfig.OriginContractLookup, { privateKey: assetOwnerPK });
-
-    await marketLogic.createDemand('Saxonia', Date.now(), Date.now() + 1000, 1000, { privateKey: traderPK });
-    await marketLogic.createSupply(0, 'Saxonia', Date.now(), Date.now() + 1000, 1000, 100, { privateKey: assetOwnerPK });
-    await marketLogic.createAgreement(0, 0, { privateKey: traderPK });
-    await assetRegistry.saveSonnenSmartMeterRead(
-        0,
-        500,
-        'lastSmartMeterReadFileHash',
-        Math.floor(Date.now() / 1000) - 1000,
-        Math.floor(Date.now() / 1000),
-        10,
-        'url',
-        { privateKey: assetSmartmeterPK });
 
     const assetProps2: Asset.ProducingAsset.OnChainProperties = {
         smartMeter: { address: assetSmartMeter2 },
@@ -127,12 +113,6 @@ const main = async () => {
     assetProps.smartMeter = { address: assetSmartMeter2 };
     const asset2 = await Asset.ProducingAsset.createAsset(assetProps2, assetPropsOffChain, conf);
     await assetRegistry.setMarketLookupContract((Number(asset2.id)), contractConfig.OriginContractLookup, { privateKey: assetOwnerPK });
-
-    const energyLogic = new EnergyLogic(web3, contractConfig.SonnenLogic);
-
-    console.log(await energyLogic.getEnergyCertificateStruct(0));
-
-    console.log(await energyLogic.getReportedFlexibility(0));
 
 };
 
