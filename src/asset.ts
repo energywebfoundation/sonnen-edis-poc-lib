@@ -94,46 +94,12 @@ const main = async () => {
 
     const traderPK = '0x2dc5120c26df339dbd9861a0f39a79d87e0638d30fdedc938861beac77bbd3f5';
     const accountTrader = web3.eth.accounts.privateKeyToAccount(traderPK).address;
-    await userLogic.setUser(accountTrader, 'trader', { privateKey: privateKeyDeployment });
+    await userLogic.setUser(accountTrader, 'Trader', { privateKey: privateKeyDeployment });
     await userLogic.setRoles(accountTrader, 63, { privateKey: privateKeyDeployment });
 
     await assetRegistry.setMarketLookupContract((Number(asset.id)), contractConfig.OriginContractLookup, { privateKey: assetOwnerPK });
 
-    await marketLogic.createDemand('Saxonia', Date.now(), Date.now() + 1000, 1000, { privateKey: traderPK });
-    await marketLogic.createSupply(0, 'Saxonia', Date.now(), Date.now() + 1000, 1000, 100, { privateKey: assetOwnerPK });
-    await marketLogic.createAgreement(0, 0, { privateKey: traderPK });
-    await assetRegistry.saveSonnenSmartMeterRead(
-        0,
-        500,
-        'lastSmartMeterReadFileHash',
-        Math.floor(Date.now() / 1000) - 1000,
-        Math.floor(Date.now() / 1000),
-        10,
-        'url',
-        { privateKey: assetSmartmeterPK });
-
-    const assetProps2: Asset.ProducingAsset.OnChainProperties = {
-        smartMeter: { address: assetSmartMeter2 },
-        owner: { address: assetOwnerAddress },
-        lastSmartMeterReadWh: 0,
-        active: true,
-        lastSmartMeterReadFileHash: 'lastSmartMeterReadFileHash',
-        matcher: [{ address: matcher }],
-        propertiesDocumentHash: null,
-        url: null,
-        maxOwnerChanges: 3,
-        marketLookupAddress: contractConfig.MarketContractLookup,
-    };
-    assetProps.smartMeter = { address: assetSmartMeter2 };
-    const asset2 = await Asset.ProducingAsset.createAsset(assetProps2, assetPropsOffChain, conf);
-    await assetRegistry.setMarketLookupContract((Number(asset2.id)), contractConfig.OriginContractLookup, { privateKey: assetOwnerPK });
-
-    const energyLogic = new EnergyLogic(web3, contractConfig.SonnenLogic);
-
-    console.log(await energyLogic.getEnergyCertificateStruct(0));
-
-    console.log(await energyLogic.getReportedFlexibility(0));
-
+    await marketLogic.createSupply(0, 'Saxonia', 1560929787534, 1561059451494, 500, 100, { privateKey: assetOwnerPK });
 };
 
 main();
