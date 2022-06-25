@@ -29,7 +29,7 @@
     "ew-user-registry-contracts": "0.0.99",
     "ew-utils-general-lib-sonnen": "0.2.0",
     "ew-utils-testbackend": "1.0.1-alpha.1",
-    "node-fetch": "2.6.0",
+    "node-fetch": "2.6.7",
     "web3": "1.0.0-beta.37",
     "websocket": "1.0.28",
     "write-json-file": "3.1.0"
